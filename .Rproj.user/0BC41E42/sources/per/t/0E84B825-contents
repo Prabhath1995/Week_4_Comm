@@ -1,0 +1,63 @@
+---
+title: "Week_4_tute"
+format: html
+editor: visual
+---
+
+## Penguins !!!
+
+```{r}
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+```
+
+```{r}
+glimpse(penguins)
+```
+
+```{r}
+
+ggplot(penguins, aes(x = species, y = bill_length_mm, color = sex)) +
+           geom_point() +
+  scale_color_brewer("", palette = "Dark2")
+```
+
+# This is the data Exploration and Visulaisation for Women's Basketball
+
+-   First, I have read the data through github
+
+```{r}
+tournament <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-10-06/tournament.csv')
+
+```
+
+-   I have plotted a linear model for the data to check the seed point with seed tournament.
+
+```{r}
+tibble(
+  seed = c(1:16),
+  exp_wins = c(3.3, 2.4, 1.8, 1.6, 1.1, 1.1, 0.9, 0.7, 0.6, 0.6, 0.6, 0.5, 0.3, 0.2, 0.1, 0)
+  
+) %>% 
+  mutate(
+    points = exp_wins/3.3 * 100
+  ) %>% 
+  ggplot(aes(x = seed, y = points)) +
+  geom_point() +
+  geom_smooth() +
+  geom_hline(yintercept = 0, color = "black") +
+  scale_y_continuous(breaks = seq(0, 100, by = 20)) +
+  coord_cartesian(ylim = c(0, 100)) +
+  scale_x_continuous(breaks = seq(1, 16, by = 3)) +
+  theme_minimal() +
+  labs(
+    x = "Tournament Seed", y = "Seed Points",
+    title = "How much is that seed worth?"
+  )
+```
+
+-   Thus, to get the points for each team/tournament season you can multiply the teams initial seed (1 - 16) by the assigned points as defined in the above table of 100 - 0.
+
